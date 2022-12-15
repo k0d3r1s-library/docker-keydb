@@ -1,0 +1,3 @@
+[submodule "KeyDB"]
+	path = KeyDB
+	url = https://github.com/Snapchat/KeyDB
