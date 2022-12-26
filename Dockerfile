@@ -10,9 +10,9 @@ COPY docker-entrypoint.sh /usr/local/bin/
 
 WORKDIR /usr/src/keydb 
 
-RUN set -eux; \
-	\
-	apk upgrade --no-cache --update --no-progress --available -X https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+RUN \
+    set -eux \
+&&  apk upgrade --no-cache --update --no-progress --available -X https://dl-cdn.alpinelinux.org/alpine/edge/testing \
 &&	apk add --no-cache --update --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing libuuid libunwind libgcc libstdc++ gcc linux-headers make musl-dev g++ libunwind-dev tcl tcl-dev util-linux-dev curl-dev coreutils openssl openssl-dev perl \
 &&	make -j "$(expr $(nproc) / 3)" CFLAGS="-DUSE_PROCESSOR_CLOCK" \
 &&	mkdir --parents /usr/local/bin \
