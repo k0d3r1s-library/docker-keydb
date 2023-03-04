@@ -13,8 +13,8 @@ WORKDIR /usr/src/keydb
 RUN \
     set -eux \
 &&  apk upgrade --no-cache --update --no-progress --available -X https://dl-cdn.alpinelinux.org/alpine/edge/testing \
-&&	apk add --no-cache --update --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing libuuid libunwind libgcc libstdc++ gcc linux-headers make musl-dev g++ libunwind-dev tcl tcl-dev util-linux-dev curl-dev coreutils openssl openssl-dev perl \
-&&	make -j "$(expr $(nproc) / 3)" CFLAGS="-DUSE_PROCESSOR_CLOCK" \
+&&	apk add --no-cache --update --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing libuuid libunwind libgcc libstdc++ gcc linux-headers make musl-dev g++ libunwind-dev tcl tcl-dev util-linux-dev curl-dev coreutils openssl openssl-dev perl snappy snappy-dev zstd-dev zstd-libs bzip2 bzip2-dev lz4 lz4-dev lz4-libs \
+&&	make -j "$(expr $(nproc) / 3)" CFLAGS="-DUSE_PROCESSOR_CLOCK" MALLOC=libc \
 &&	mkdir --parents /usr/local/bin \
 &&	cp ./src/keydb-* /usr/local/bin/ \
 &&	mkdir /data && chown vairogs:vairogs /data \
@@ -50,7 +50,7 @@ RUN \
 		/usr/local/bin/keydb-benchmark \
 		/usr/local/bin/keydb-sentinel \
 		/etc/keydb/nkeydb.conf \
-&&	apk del --purge --no-cache gcc linux-headers make musl-dev openssl-dev g++ tcl-dev util-linux-dev curl-dev libunwind-dev liburing-dev openssl-dev perl coreutils \
+&&	apk del --purge --no-cache gcc linux-headers make musl-dev openssl-dev g++ tcl-dev util-linux-dev curl-dev libunwind-dev liburing-dev openssl-dev perl coreutils snappy-dev zstd-dev bzip2-dev lz4-dev \
 &&	chown -R vairogs:vairogs /data
 
 FROM	scratch
